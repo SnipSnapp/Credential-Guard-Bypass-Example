@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Keystroke Logger</title>
+</head>
+<body>
+    <input type="text" id="keystrokeInput">
+    <script>
+        const inputField = document.getElementById('keystrokeInput');
+        inputField.addEventListener('keydown', () => {
+            const keystroke = inputField.value + event.key;
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost:8000', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.send(`keystroke=${keystroke}`);
+        });
+    </script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Keystroke Logger</title>
+</head>
+<body>
+    <input type="text" id="keystrokeInput">
+    <script>
+        const inputField = document.getElementById('keystrokeInput');
+        let previousValue = '';
+        inputField.addEventListener('input', () => {
+            const currentValue = inputField.value;
+            const newKey = currentValue.slice(previousValue.length);
+            if (newKey.length > 0) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'http://localhost:8000', true);
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr.send(`keystroke=${newKey}`);
+            }
+            previousValue = currentValue;
+        });
+    </script>
+</body>
+</html>
